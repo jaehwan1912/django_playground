@@ -15,4 +15,9 @@ class Rating(models.Model):
     detail = models.CharField(max_length=320)
 
     def __str__(self):
-        return "Rating for " + self.ratable.name + " : " + str(self.grade)
+        det = None
+        if len(self.detail) > 25:
+            det = self.detail[:22] + "..."
+        else:
+            det = self.detail
+        return str(self.grade) + " : " + det 

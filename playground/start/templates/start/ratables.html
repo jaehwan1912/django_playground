@@ -1,0 +1,10 @@
+{% if ratables_from_latest %}
+    <h1>Ratables!</h1>
+    <ul>
+    {% for ratable in ratables_from_latest %}
+        <li><a href="/start/{{ ratable.id }}/">{{ ratable.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>There are no ratables currently.<p>
+{% endif %}

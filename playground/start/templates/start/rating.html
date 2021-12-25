@@ -1,0 +1,7 @@
+{% if rating %}
+    <h1>{{ rating.ratable.name }}</h1>
+    <h2>{{ rating.grade }}</h2>
+    <p>{{ rating.detail }}</p>
+{% else %}
+    <p>No rating here!</p>
+{% endif %}
