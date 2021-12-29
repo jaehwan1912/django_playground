@@ -1,5 +1,7 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 
 from .models import *
 
@@ -33,7 +35,7 @@ def ratings(request, ratable_id):
 
     context = {
         'ratable': ratable,
-        'ratings_for_a_ratable': ratings_for_a_ratable,
+        'ratings_for_a_ratable': reversed(ratings_for_a_ratable),
     }
 
     return HttpResponse(template.render(context, request))
@@ -58,6 +60,34 @@ def rating(request, ratable_id, rating_id):
 
 
 def rate(request, ratable_id):
-    response = "Vote for {}"
-    return HttpResponse(response.format(ratable_id))
+    ratable = get_object_or_404(Ratable, pk=ratable_id)
+    context = {
+        'ratable': ratable,
+        'error_msgs': [],
+    }
 
+    if request.method == "POST":
+        error = False
+        score = request.POST['score']
+        detail = request.POST['detail']
+        if not score:
+            context['error_msgs'].append("You must provide a score")
+            error = True
+        if not detail:
+            context['error_msgs'].append("You must provide details")
+            error = True
+
+        if error:
+            return render(request, 'start/rate.html', context)
+        else:
+            rating = Rating(ratable=ratable, grade=score, detail=detail)
+            rating.save()
+        return HttpResponseRedirect(reverse('start:result', args=(ratable.id, rating.id)))
+        
+    else:
+        return render(request, 'start/rate.html', context)
+
+def result(request, ratable_id, rating_id):
+    ratable = get_object_or_404(Ratable, pk=ratable_id)
+    rating = get_object_or_404(Rating, pk=rating_id)
+    return render(request, 'start/result.html', {'ratable': ratable, 'rating': rating,})

@@ -2,6 +2,8 @@
     <h1>{{ rating.ratable.name }}</h1>
     <h2>{{ rating.grade }}</h2>
     <p>{{ rating.detail }}</p>
+    <a href="{% url 'start:ratings' rating.ratable.id %}"><button>Go back</button></a>
 {% else %}
     <p>No rating here!</p>
+    <a href="{% url 'start:ratables' %}"><button>Go to first page</button></a>
 {% endif %}

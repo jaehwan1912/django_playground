@@ -1,0 +1,10 @@
+<form action="{% url 'start:rate' ratable.id %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend><p>Rate "{{ ratable.name }}"</p></legend>
+        {% if error_msgs %}{% for error_msg in error_msgs %}<p>{{ error_msg }}</p>{% endfor %}{% endif %}
+        <input type="number" name="score" id="score1" value="{{ score }}">
+        <input type="text" name="detail" id="detail1" value="{{ detail }}">
+        <input type="submit" value="rate">
+    </fieldset>
+</form>

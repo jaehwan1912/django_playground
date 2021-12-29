@@ -1,0 +1,9 @@
+<h1>{{ ratable.name }}</h1>
+
+<p>You rated it to be...</p>
+
+<h2>{{ rating.grade }}</h2>
+
+<p>{{ rating.detail }}</p>
+
+<a href="{% url 'start:ratings' ratable.id %}"><button>Go back</button></a>
