@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.views import generic
 
 from .models import *
 
@@ -91,3 +92,17 @@ def result(request, ratable_id, rating_id):
     ratable = get_object_or_404(Ratable, pk=ratable_id)
     rating = get_object_or_404(Rating, pk=rating_id)
     return render(request, 'start/result.html', {'ratable': ratable, 'rating': rating,})
+
+
+class GenericRatables(generic.ListView):
+    template_name = 'start/ratables.html'
+    context_object_name = 'ratables_from_latest'
+
+    def get_queryset(self):
+        return Ratable.objects.order_by('-reg_date')
+
+
+class GenericRatings(generic.DetailView):
+    model = Ratable
+    template_name = 'start/ratings.html'
+    
