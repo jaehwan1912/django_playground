@@ -1,14 +1,15 @@
 {% if ratable %}
-<h1>Ratings for "{{ ratable.name }}"</h1>
-{% if ratings_for_a_ratable %}
-    <ul>
-    {% for rating in ratings_for_a_ratable %}
-        <li><a href="/start/{{ ratable.id }}/{{ rating.id }}/">{{ rating }}</a></li>
-    {% endfor %}
-    </ul>
+    <h1>Ratings for "{{ ratable.name }}"</h1>
+        {% if ratings_for_a_ratable %}
+            <ul>
+                {% for rating in ratings_for_a_ratable %}
+                    <li><a href="/start/{{ ratable.id }}/{{ rating.id }}/">{{ rating }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No ratings for this currently.</p>
+        {% endif %}
+    <a href="/start/{{ ratable.id }}/rate/"><button type="button">Rate!</button></a>
 {% else %}
-    <p>No ratings for this currently.</p>
-{% endif %}
-{% else %}
-<h1>No ratable here!</h1>
+    <h1>No ratable here!</h1>
 {% endif %}
